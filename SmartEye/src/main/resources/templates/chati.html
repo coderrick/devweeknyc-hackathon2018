@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart-Eye</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="main2.css">
+    <meta charset="utf-8">
+    <meta content="stuff, to, help, search, engines, not" name="keywords">
+    <meta content="What this page is about." name="description">
+    <meta content="Display Webcam Stream" name="title">
+    <title>Display Webcam Stream</title>
+
+    <style>
+        #container {
+            margin: 0px auto;
+            width: 500px;
+            height: 375px;
+            border: 10px #333 solid;
+        }
+        #videoElement {
+            width: 500px;
+            height: 375px;
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+        <div class="d-flex h-100 pad3 mx-auto flex-column">
+                <header class="masthead mb-auto">
+                  <div class="inner">
+                    <h3 class="masthead-brand">SMART-EYE</h3>
+                    <nav class="nav nav-masthead justify-content-center">
+                      <a class="nav-link active" href="#">Home</a>
+                      <a class="nav-link" href="#">FacialE</a>
+                      <a class="nav-link" href="#">Contact</a>
+                      <button style="margin-left:15px;" class="btn btn-secondary">Login</button>
+                    </nav>
+                  </div>
+                </header>
+          
+                <main role="main" class="content inner">
+                  <h2 class="cover-heading">Secure Chat</h2>
+                    <script>
+                        const input = document.getElementById('file1');
+                        const video = document.getElementById('video');
+                        const videoSource = document.createElement('source');
+
+                        input.addEventListener('change', function() {
+                            const files = this.files || [];
+
+                            if (!files.length) return;
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                videoSource.setAttribute('src', e.target.result);
+                                video.appendChild(videoSource);
+                                video.load();
+                                video.play();
+                            };
+
+                            reader.onprogress = function (e) {
+                                console.log('progress: ', Math.round((e.loaded * 100) / e.total));
+                            };
+
+                            reader.readAsDataURL(files[0]);
+                        });
+
+
+                        //upload loader
+                        function _(el) {
+                            return document.getElementById(el);
+                        }
+
+                        function uploadFile() {
+                            var file = _("file1").files[0];
+                            // alert(file.name+" | "+file.size+" | "+file.type);
+                            var formdata = new FormData();
+                            formdata.append("file1", file);
+                            var ajax = new XMLHttpRequest();
+                            ajax.upload.addEventListener("progress", progressHandler, false);
+                            ajax.addEventListener("load", completeHandler, false);
+                            ajax.addEventListener("error", errorHandler, false);
+                            ajax.addEventListener("abort", abortHandler, false);
+                            ajax.open("POST", "file_upload_parser.php"); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
+                            //use file_upload_parser.php from above url
+                            ajax.send(formdata);
+                        }
+
+                        function progressHandler(event) {
+                            _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
+                            var percent = (event.loaded / event.total) * 100;
+                            _("progressBar").value = Math.round(percent);
+                            _("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+                        }
+
+                        function completeHandler(event) {
+                            _("status").innerHTML = event.target.responseText;
+                            _("progressBar").value = 0; //wil clear progress bar after successful upload
+                        }
+
+                        function errorHandler(event) {
+                            _("status").innerHTML = "Upload Failed";
+                        }
+
+                        function abortHandler(event) {
+                            _("status").innerHTML = "Upload Aborted";
+                        }
+                    </script>
+
+
+                    <form id="upload_form" enctype="multipart/form-data" method="post">
+                        <input id="file1" type="file" accept="video/*" style = "display: block" name="file1" onchange="uploadFile(); this.disabled=true; this.value='Sending…';"><br>
+                        <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+                        <h3 id="status"></h3>
+                        <p id="loaded_n_total"></p>
+                        <video id="video" width="500" height="300" controls>
+                    </form>
+                </main>
+
+
+                
+
+                <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">YubiKey Auth</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img src="image/YubiKey.png" style="width:20%; height:auto;" alt=""> <p>Insert YubiKey for Authentication</p>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+          <a type="button" class="btn btn-secondary">Authenticate</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+                <footer class="mastfoot mt-auto footer">
+                  
+                     <div class="row">
+                         <div class="col md-3"><p></p></div>
+                         <div class="col md-3"><p></p></div>
+                         <div class="col md-3"><p></p></div>
+                     </div>
+                     
+                </footer>
+              </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
