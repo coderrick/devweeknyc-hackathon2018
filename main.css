@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Spirax');
 
 h1, p{
-    font-family: 'Encode Sans Condensed', sans-serif;
+    /* font-family: 'Encode Sans Condensed', sans-serif; */
+    font-family: 'Spirax', cursive;
 }
