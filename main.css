@@ -52,9 +52,14 @@ body {
 .cover-container {
   max-width: 42em;
 }
-
+.pad3{
+  padding:1em;
+}
 .content {
   margin: 0px 200px;
+  background: rgba(255,255,255,0.5);
+  padding: 25px;
+  border-radius: 10px;
 }
 
 /*
@@ -117,4 +122,5 @@ body {
  */
 .mastfoot {
   color: rgba(0,0,0, .8);
+  text-align: center;
 }
